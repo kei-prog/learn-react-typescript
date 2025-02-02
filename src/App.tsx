@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { PostList } from "./components/PostList";
+import { UserList } from "./components/UserList";
+import { UserPostToggleButton } from "./components/UserPostToggleButton";
+import { Form } from "./components/Form";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isToggle, setIsToggle] = useState(true);
+  const [text, setText] = useState("");
+
+  const handleToggle = () => {
+    setIsToggle(!isToggle);
+    setText("");
+  };
+
+  const handleChange = (value: string) => {
+    setText(value);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="d-flex flex-column align-items-center">
+        <UserPostToggleButton handleToggle={handleToggle} />
+        <Form value={text} onChange={handleChange} />
+        {isToggle ? (
+          <UserList filterWord={text} />
+        ) : (
+          <PostList filterWord={text} />
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
